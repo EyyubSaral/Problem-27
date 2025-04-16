@@ -26,16 +26,22 @@ import { useEffect, useRef, useState } from "react";
 export default function Toggle() {
   const switchRef = useRef(null); // DOM referansı için.
   const previousStateRef = useRef(null); // Önceki durumu saklamak için.
-  const toggleRef = useRef(
-    (typeof window !== undefined &&
-      JSON.parse(localStorage.getItem("toggleState"))) ||
-      true
-  ); // localStorage'dan okuma.
+  const toggleRef = useRef(true); // localStorage'dan okuma.
   const [enabled, setEnabled] = useState(toggleRef.current); // Bileşenin anlık durumu.
   const times = useRef(0); // Kaç kez tıklandığını izlemek için.
 
   useEffect(() => {
     switchRef.current.focus(); // Bileşen yüklendiğinde odağı sağlama.
+  }, []);
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToggleState = localStorage.getItem("toggleState");
+      toggleRef.current = storedToggleState
+        ? JSON.parse(storedToggleState)
+        : true;
+      setEnabled(toggleRef.current); // Update state.
+    }
   }, []);
 
   useEffect(() => {
