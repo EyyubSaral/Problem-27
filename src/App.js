@@ -41,7 +41,7 @@ export default function Toggle() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("toggleState", JSON.stringify(enabled));
-    } // Durumu localStorage'a kaydetme.
+    }
   }, [enabled]);
 
   const handleToggle = () => {
